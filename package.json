@@ -4,7 +4,6 @@
   "description": "WariBook - Facturation et suivi des impayés pour les commerçants et PME d'Afrique (FCFA, Mobile Money, WhatsApp)",
   "main": "src/server.js",
   "scripts": {
-    "start": "node src/server.js",
     "dev": "node --watch src/server.js",
     "seed": "node scripts/seed.js",
     "test": "node scripts/smoke-test.js"
