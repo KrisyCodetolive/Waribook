@@ -1,0 +1,13 @@
+<form method="post" action="/app/clients">
+  <input type="hidden" name="redirect" value="<%= redirect %>">
+  <div class="field"><label>Nom du client *</label><input name="name" required placeholder="Ex : Maquis Chez Tantie"></div>
+  <div class="grid-2">
+    <div class="field"><label>Téléphone (WhatsApp)</label><input name="phone" type="tel" placeholder="07 00 00 00 00"></div>
+    <div class="field"><label>E-mail</label><input name="email" type="email"></div>
+  </div>
+  <div class="field"><label>Adresse</label><input name="address" placeholder="Cocody, Abidjan"></div>
+  <div class="actions-row" style="justify-content:space-between">
+    <button type="submit" class="btn btn-primary">Ajouter le client</button>
+    <button type="button" class="btn" data-close-dialog>Annuler</button>
+  </div>
+</form>

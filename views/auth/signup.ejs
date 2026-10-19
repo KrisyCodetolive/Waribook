@@ -1,0 +1,24 @@
+<%- include('../partials/head') %>
+<body>
+<div class="auth-wrap">
+  <%- include('_side') %>
+  <main class="auth-main">
+    <div class="auth-card">
+      <a href="/" class="logo" style="margin-bottom:1.5rem"><%- include('../partials/logo') %></a>
+      <h1>Créer mon compte</h1>
+      <p class="muted">Gratuit, sans carte bancaire.</p>
+      <% if (error) { %><div class="flash flash-error"><%= error %></div><% } %>
+      <form method="post" action="/inscription">
+        <div class="field"><label for="name">Votre nom *</label><input id="name" name="name" required value="<%= values.name || '' %>" autocomplete="name"></div>
+        <div class="field"><label for="business_name">Nom de votre commerce / entreprise *</label><input id="business_name" name="business_name" required value="<%= values.business_name || '' %>" placeholder="Ex : Boutique Awa"></div>
+        <div class="field"><label for="phone">Téléphone WhatsApp</label><input id="phone" name="phone" type="tel" value="<%= values.phone || '' %>" placeholder="07 00 00 00 00"></div>
+        <div class="field"><label for="email">E-mail *</label><input id="email" name="email" type="email" required value="<%= values.email || '' %>" autocomplete="email"></div>
+        <div class="field"><label for="password">Mot de passe *</label><input id="password" name="password" type="password" required minlength="8" autocomplete="new-password"><div class="hint">8 caractères minimum.</div></div>
+        <button class="btn btn-primary btn-lg btn-block" type="submit">Créer mon compte</button>
+      </form>
+      <p class="muted small" style="margin-top:1.2rem;text-align:center">Déjà inscrit ? <a href="/connexion">Se connecter</a></p>
+    </div>
+  </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<%- include('../partials/app-top') %>
+<div class="app-topbar"><h1>Paramètres</h1></div>
+<form method="post" action="/app/parametres">
+  <div class="card">
+    <h2>Votre entreprise</h2>
+    <div class="grid-2">
+      <div class="field"><label>Votre nom</label><input name="name" value="<%= user.name %>" required></div>
+      <div class="field"><label>Nom du commerce</label><input name="business_name" value="<%= user.business_name %>" required></div>
+      <div class="field"><label>Téléphone WhatsApp</label><input name="phone" type="tel" value="<%= user.phone || '' %>"><div class="hint">Vos clients pourront vous écrire « J'ai payé » directement.</div></div>
+      <div class="field"><label>Ville</label><input name="city" value="<%= user.city || '' %>" placeholder="Abidjan"></div>
+      <div class="field"><label>Pays</label><input name="country" value="<%= user.country || '' %>"></div>
+    </div>
+  </div>
+  <div class="card">
+    <h2>📱 Vos numéros Mobile Money</h2>
+    <p class="muted small" style="margin-top:0">Ils s'affichent sur chaque facture pour que vos clients sachent où envoyer l'argent. Laissez vide ceux que vous n'utilisez pas.</p>
+    <div class="grid-2">
+      <div class="field"><label>Wave</label><input name="momo_wave" type="tel" value="<%= user.momo_wave || '' %>"></div>
+      <div class="field"><label>Orange Money</label><input name="momo_orange" type="tel" value="<%= user.momo_orange || '' %>"></div>
+      <div class="field"><label>MTN MoMo</label><input name="momo_mtn" type="tel" value="<%= user.momo_mtn || '' %>"></div>
+      <div class="field"><label>Moov Money</label><input name="momo_moov" type="tel" value="<%= user.momo_moov || '' %>"></div>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Bas de facture</h2>
+    <div class="field"><label>Mentions (RCCM, NCC, conditions…)</label><textarea name="invoice_footer" rows="3" placeholder="RCCM : CI-ABJ-2026-B-00000 · NCC : 0000000A · Merci pour votre confiance !"><%= user.invoice_footer || '' %></textarea></div>
+    <button type="submit" class="btn btn-primary">Enregistrer</button>
+  </div>
+</form>
+<%- include('../partials/app-bottom') %>

@@ -1,0 +1,224 @@
+<%- include('partials/head') %>
+<body>
+<header class="site-header" id="top">
+  <div class="container">
+    <a href="/" class="logo"><%- include('partials/logo') %></a>
+    <nav class="nav-links" id="nav">
+      <a href="#fonctionnalites">Fonctionnalités</a>
+      <a href="#comment">Comment ça marche</a>
+      <a href="#tarifs">Tarifs</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="nav-cta">
+      <% if (user) { %>
+        <a href="/app" class="btn btn-primary">Mon espace</a>
+      <% } else { %>
+        <a href="/connexion" class="btn btn-ghost">Connexion</a>
+        <a href="/inscription" class="btn btn-primary">Essai gratuit</a>
+      <% } %>
+      <button class="menu-toggle" type="button" data-toggle-nav aria-label="Menu">☰</button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="pattern"></div>
+  <div class="container hero-grid">
+    <div>
+      <span class="eyebrow">🌍 Pensé pour l'Afrique de l'Ouest et du Centre</span>
+      <h1>Vos clients vous doivent de l'argent&nbsp;? <em>Faites-vous payer.</em></h1>
+      <p class="lead"><%= appName %> crée vos factures en FCFA en 30 secondes, les envoie sur WhatsApp avec vos numéros Mobile Money, et vous rappelle qui doit encore payer. Fini le cahier et les « je passe demain ».</p>
+      <div class="hero-actions">
+        <a href="/inscription" class="btn btn-primary btn-lg">Créer mon compte gratuit</a>
+        <a href="#comment" class="btn btn-lg">Voir comment ça marche</a>
+      </div>
+      <div class="hero-proof">
+        <span>Gratuit pour commencer</span>
+        <span>Sans carte bancaire</span>
+        <span>Marche sur téléphone</span>
+      </div>
+    </div>
+
+    <div class="mock" aria-hidden="true">
+      <div class="phone">
+        <div class="phone-screen">
+          <div class="wa-top"><div class="wa-avatar">KB</div><div><strong>Kouadio Bâtiment</strong><br><span style="opacity:.75;font-size:.75rem">en ligne</span></div></div>
+          <div class="wa-body">
+            <div class="bubble out">
+              Bonjour M. Traoré, voici votre facture pour les travaux de carrelage 🙏
+              <div class="inv-card">
+                <div class="small muted">FAC-2026-0042 · à régler avant le 30 oct.</div>
+                <div class="amt">350 000 FCFA</div>
+                <div class="small" style="margin-top:6px">💚 Wave · 🟠 Orange Money · 🟡 MTN MoMo</div>
+              </div>
+              <span class="time">09:14 ✓✓</span>
+            </div>
+            <div class="bubble">Merci, je paie par Wave ce midi 👍<span class="time">09:20</span></div>
+            <div class="bubble out">Paiement bien reçu, merci beaucoup !<span class="time">12:47 ✓✓</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="float-card float-1"><span class="muted small">Encaissé ce mois</span><strong style="color:var(--forest-2)">1 240 000 F</strong></div>
+      <div class="float-card float-2"><span class="muted small">Relance envoyée</span><strong style="color:var(--clay)">3 clients en retard</strong></div>
+    </div>
+  </div>
+</section>
+
+<div class="momo-strip">
+  <div class="container">
+    <span class="muted small">Vos clients paient comme ils veulent :</span>
+    <span class="momo-chip"><span class="dot" style="background:#1dc4ff"></span>Wave</span>
+    <span class="momo-chip"><span class="dot" style="background:#ff7900"></span>Orange Money</span>
+    <span class="momo-chip"><span class="dot" style="background:#ffcb05"></span>MTN MoMo</span>
+    <span class="momo-chip"><span class="dot" style="background:#0066b3"></span>Moov Money</span>
+    <span class="momo-chip"><span class="dot" style="background:#0f3d2e"></span>Espèces & virement</span>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Le problème</span>
+      <h2>L'argent qu'on vous doit, c'est votre trésorerie</h2>
+      <p>Les crédits clients notés dans un cahier, les factures Word perdues dans le téléphone, les relances qu'on n'ose pas faire… Chaque franc non encaissé freine votre activité.</p>
+    </div>
+    <div class="problem-grid">
+      <div class="stat-card"><div class="big">📒</div><h3>Le cahier ne relance pas</h3><p class="muted">Vous oubliez qui doit quoi, depuis quand. Et le client aussi « oublie ».</p></div>
+      <div class="stat-card"><div class="big">😬</div><h3>Relancer, c'est gênant</h3><p class="muted">Un message clair et professionnel, prêt à envoyer, rend la relance beaucoup plus facile.</p></div>
+      <div class="stat-card"><div class="big">🧾</div><h3>Les factures font sérieux</h3><p class="muted">Une vraie facture numérotée rassure vos clients et les grandes entreprises qui vous achètent.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="fonctionnalites" style="padding-top:0">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Fonctionnalités</span>
+      <h2>Tout ce qu'il faut, rien de compliqué</h2>
+      <p>Conçu pour les boutiques, artisans, prestataires, freelances et PME qui travaillent depuis leur téléphone.</p>
+    </div>
+    <div class="features">
+      <div class="feature"><div class="feature-icon" style="background:var(--mint-soft)">🧾</div><h3>Factures en 30 secondes</h3><p>Choisissez le client, ajoutez les lignes, c'est prêt. Numérotation automatique, montants en FCFA.</p></div>
+      <div class="feature"><div class="feature-icon" style="background:#d9f7e3">💬</div><h3>Envoi par WhatsApp</h3><p>Un bouton, et votre client reçoit un message avec le lien vers sa facture. Pas besoin d'e-mail.</p></div>
+      <div class="feature"><div class="feature-icon" style="background:var(--saffron-soft)">📱</div><h3>Paiement Mobile Money</h3><p>Vos numéros Wave, Orange, MTN et Moov apparaissent sur chaque facture. Le client sait comment payer.</p></div>
+      <div class="feature"><div class="feature-icon" style="background:var(--clay-soft)">⏰</div><h3>Relances en un clic</h3><p>Le tableau de bord vous montre les factures en retard et prépare le message de relance poli.</p></div>
+      <div class="feature"><div class="feature-icon" style="background:var(--sky-soft)">📊</div><h3>Suivi des encaissements</h3><p>Combien vous avez facturé, encaissé, et combien on vous doit encore. Mois par mois.</p></div>
+      <div class="feature"><div class="feature-icon" style="background:#efe7fb">🖨️</div><h3>PDF & impression</h3><p>Chaque facture s'imprime ou s'enregistre en PDF proprement, pour vos archives ou votre comptable.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="comment" style="background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Comment ça marche</span>
+      <h2>Trois étapes, et l'argent rentre</h2>
+    </div>
+    <div class="steps">
+      <div class="step"><h3>Créez votre compte</h3><p>Ajoutez le nom de votre commerce et vos numéros Mobile Money. Deux minutes, c'est fait.</p></div>
+      <div class="step"><h3>Envoyez la facture</h3><p>Créez la facture et partagez-la sur WhatsApp. Votre client l'ouvre sur son téléphone, sans application.</p></div>
+      <div class="step"><h3>Encaissez et relancez</h3><p>Marquez les paiements reçus. Pour les retardataires, la relance est prête en un clic.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Pour qui ?</span>
+      <h2>Fait pour celles et ceux qui font tourner l'économie</h2>
+    </div>
+    <div class="testimonials">
+      <div class="quote"><div class="feature-icon" style="background:var(--saffron-soft)">🛍️</div><h3>Boutiques & grossistes</h3><p class="muted">Vous vendez à crédit à des revendeurs ? Suivez chaque dette client et relancez sans gêne.</p></div>
+      <div class="quote"><div class="feature-icon" style="background:var(--mint-soft)">🔧</div><h3>Artisans & BTP</h3><p class="muted">Plombiers, menuisiers, électriciens : facturez le chantier et encaissez les acomptes.</p></div>
+      <div class="quote"><div class="feature-icon" style="background:var(--sky-soft)">💻</div><h3>Freelances & agences</h3><p class="muted">Graphistes, développeurs, consultants : des factures pro qui rassurent vos clients.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="tarifs" style="padding-top:0">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Tarifs</span>
+      <h2>Des prix pensés pour nos réalités</h2>
+      <p>Commencez gratuitement. Payez par Mobile Money quand vous êtes prêt. Sans engagement.</p>
+    </div>
+    <div class="pricing">
+      <div class="price-card">
+        <h3><%= plans.gratuit.name %></h3>
+        <div class="price">0 <small>FCFA / mois</small></div>
+        <p class="muted">Pour essayer et démarrer.</p>
+        <ul>
+          <li><%= plans.gratuit.invoicesPerMonth %> factures par mois</li>
+          <li>Jusqu'à <%= plans.gratuit.clients %> clients</li>
+          <li>Envoi WhatsApp</li>
+          <li>Numéros Mobile Money sur les factures</li>
+        </ul>
+        <a href="/inscription" class="btn btn-block">Commencer gratuitement</a>
+      </div>
+      <div class="price-card featured">
+        <span class="tag">Le plus choisi</span>
+        <h3><%= plans.pro.name %></h3>
+        <div class="price"><%= u.formatMoney(plans.pro.price, '') %> <small>FCFA / mois</small></div>
+        <p class="muted">Pour les commerces qui facturent chaque jour.</p>
+        <ul>
+          <li>Factures illimitées</li>
+          <li>Clients illimités</li>
+          <li>Relances WhatsApp en un clic</li>
+          <li>Tableau de bord des encaissements</li>
+          <li>Facture PDF personnalisée</li>
+        </ul>
+        <a href="/inscription" class="btn btn-primary btn-block">Choisir Pro</a>
+      </div>
+      <div class="price-card">
+        <h3><%= plans.business.name %></h3>
+        <div class="price"><%= u.formatMoney(plans.business.price, '') %> <small>FCFA / mois</small></div>
+        <p class="muted">Pour les PME en croissance.</p>
+        <ul>
+          <li>Tout le contenu Pro</li>
+          <li>Support prioritaire WhatsApp</li>
+          <li>Accompagnement à la prise en main</li>
+          <li>Export de vos données</li>
+        </ul>
+        <a href="/inscription" class="btn btn-block">Choisir Business</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="faq" style="padding-top:0">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Questions fréquentes</span>
+      <h2>Vous vous demandez peut-être…</h2>
+    </div>
+    <div class="faq">
+      <details><summary>Mon client doit-il installer une application ?</summary><p>Non. Il reçoit un lien sur WhatsApp et voit la facture directement dans son navigateur, sur n'importe quel téléphone.</p></details>
+      <details><summary>Comment mes clients me paient-ils ?</summary><p>Vos numéros Wave, Orange Money, MTN MoMo et Moov Money s'affichent sur la facture. Le client vous envoie l'argent directement, sans intermédiaire ni commission. Vous marquez ensuite le paiement comme reçu.</p></details>
+      <details><summary>Comment payer mon abonnement ?</summary><p>Par Mobile Money ou carte bancaire, via une page de paiement sécurisée. L'abonnement dure 30 jours et ne se renouvelle pas tout seul : pas de mauvaise surprise.</p></details>
+      <details><summary>Est-ce que ça marche hors de Côte d'Ivoire ?</summary><p>Oui, partout où l'on utilise le FCFA et le Mobile Money : Sénégal, Mali, Burkina Faso, Bénin, Togo, Niger, Cameroun, Gabon…</p></details>
+      <details><summary>Puis-je arrêter quand je veux ?</summary><p>Oui. Sans renouvellement, vous repassez simplement à l'offre gratuite et gardez l'accès à toutes vos factures.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="band">
+      <h2 style="font-size:clamp(1.7rem,3.5vw,2.4rem);max-width:18em">Votre prochaine facture peut partir dans 2 minutes.</h2>
+      <p style="max-width:32em">Créez votre compte gratuitement et envoyez votre première facture sur WhatsApp dès aujourd'hui.</p>
+      <a href="/inscription" class="btn btn-accent btn-lg" style="margin-top:.8rem">Créer mon compte gratuit</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <a href="/" class="logo" style="font-size:1.05rem"><%- include('partials/logo') %></a>
+    <span>© <%= new Date().getFullYear() %> <%= appName %> · Fait avec ❤️ à Abidjan</span>
+    <span><a href="/connexion">Connexion</a> · <a href="/inscription">Inscription</a></span>
+  </div>
+</footer>
+<script src="/js/app.js"></script>
+</body>
+</html>

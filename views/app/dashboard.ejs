@@ -1,0 +1,58 @@
+<%- include('../partials/app-top') %>
+<div class="app-topbar">
+  <div>
+    <h1>Bonjour <%= user.name.split(' ')[0] %> 👋</h1>
+    <span class="muted">Voici où en est l'argent de <%= user.business_name %>.</span>
+  </div>
+  <a href="/app/factures/nouvelle" class="btn btn-primary">+ Nouvelle facture</a>
+</div>
+
+<% if (needsSetup) { %>
+<div class="setup-banner">
+  <div><strong>Dernière étape :</strong> ajoutez vos numéros Mobile Money pour qu'ils apparaissent sur vos factures.</div>
+  <a href="/app/parametres" class="btn btn-sm btn-primary">Ajouter mes numéros</a>
+</div>
+<% } %>
+
+<div class="kpis">
+  <div class="kpi"><div class="label">Total facturé</div><div class="value"><%= u.formatMoney(stats.billed) %></div></div>
+  <div class="kpi good"><div class="label">Encaissé ce mois</div><div class="value"><%= u.formatMoney(stats.monthCollected) %></div></div>
+  <div class="kpi"><div class="label">Reste à encaisser</div><div class="value"><%= u.formatMoney(stats.outstanding) %></div></div>
+  <div class="kpi <%= stats.overdue > 0 ? 'alert' : '' %>"><div class="label">En retard (<%= stats.overdueCount %>)</div><div class="value"><%= u.formatMoney(stats.overdue) %></div></div>
+</div>
+
+<div class="two-col">
+  <div class="card">
+    <h2>Encaissements des 6 derniers mois</h2>
+    <% const max = Math.max(1, ...chart.map(c => c.value)); %>
+    <div class="bars">
+      <% chart.forEach(c => { %>
+        <div class="bar-col">
+          <span class="val"><%= c.value ? (c.value >= 1000 ? Math.round(c.value/1000) + 'k' : c.value) : '' %></span>
+          <div class="bar" style="height:<%= Math.round(c.value / max * 100) %>%" title="<%= u.formatMoney(c.value) %>"></div>
+          <span class="lbl"><%= c.label %></span>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>À relancer aujourd'hui</h2>
+    <% if (toRemind.length === 0) { %>
+      <div class="empty" style="padding:24px"><div class="emoji">🎉</div>Aucune facture en retard. Bravo !</div>
+    <% } else { %>
+      <% toRemind.forEach(i => { %>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:.8rem;padding:.6em 0;border-bottom:1px solid var(--line)">
+          <div><strong><%= i.client_name %></strong><div class="small muted"><%= i.number %> · <%= u.formatMoney(i.total - i.amount_paid) %></div></div>
+          <% if (i.client_phone) { %><a href="<%= i.waLink %>" target="_blank" rel="noopener" class="btn btn-sm btn-whatsapp">Relancer</a><% } else { %><a href="/app/factures/<%= i.id %>" class="btn btn-sm">Voir</a><% } %>
+        </div>
+      <% }) %>
+    <% } %>
+  </div>
+</div>
+
+<div class="card">
+  <div style="display:flex;justify-content:space-between;align-items:center"><h2>Dernières factures</h2><a href="/app/factures" class="small">Tout voir →</a></div>
+  <%- include('_invoice-table', { invoices: recent }) %>
+</div>
+<%- include('../partials/app-bottom') %>

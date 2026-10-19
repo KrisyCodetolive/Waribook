@@ -1,0 +1,14 @@
+<%- include('partials/head') %>
+<body>
+<div class="invoice-page">
+  <%- include('partials/invoice-doc') %>
+  <div class="actions-row no-print" style="justify-content:center;margin-top:20px">
+    <button type="button" class="btn" onclick="window.print()">🖨️ Télécharger en PDF</button>
+    <% if (owner.phone) { %>
+      <a class="btn btn-whatsapp" target="_blank" rel="noopener" href="<%= u.whatsappLink(owner.phone, 'Bonjour, je viens de payer la facture ' + invoice.number + ' (' + u.formatMoney(invoice.total - invoice.amount_paid) + '). Voici la référence de la transaction : ') %>">💬 J'ai payé, prévenir <%= owner.business_name %></a>
+    <% } %>
+  </div>
+  <p class="powered no-print">Facture créée avec <a href="/"><%= appName %></a> — la facturation simple pour l'Afrique</p>
+</div>
+</body>
+</html>

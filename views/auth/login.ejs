@@ -1,0 +1,21 @@
+<%- include('../partials/head') %>
+<body>
+<div class="auth-wrap">
+  <%- include('_side') %>
+  <main class="auth-main">
+    <div class="auth-card">
+      <a href="/" class="logo" style="margin-bottom:1.5rem"><%- include('../partials/logo') %></a>
+      <h1>Bon retour 👋</h1>
+      <p class="muted">Connectez-vous à votre espace.</p>
+      <% if (error) { %><div class="flash flash-error"><%= error %></div><% } %>
+      <form method="post" action="/connexion">
+        <div class="field"><label for="email">E-mail</label><input id="email" name="email" type="email" required value="<%= email %>" autocomplete="email"></div>
+        <div class="field"><label for="password">Mot de passe</label><input id="password" name="password" type="password" required autocomplete="current-password"></div>
+        <button class="btn btn-primary btn-lg btn-block" type="submit">Se connecter</button>
+      </form>
+      <p class="muted small" style="margin-top:1.2rem;text-align:center">Pas encore de compte ? <a href="/inscription">Créer un compte gratuit</a></p>
+    </div>
+  </main>
+</div>
+</body>
+</html>

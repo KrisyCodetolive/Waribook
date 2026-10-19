@@ -1,0 +1,18 @@
+<% if (invoices.length === 0) { %>
+  <div class="empty"><div class="emoji">🧾</div><p>Aucune facture pour l'instant.</p><a href="/app/factures/nouvelle" class="btn btn-primary">Créer ma première facture</a></div>
+<% } else { %>
+<div class="table-wrap"><table>
+  <thead><tr><th>N°</th><th>Client</th><th>Échéance</th><th class="right">Montant</th><th>Statut</th></tr></thead>
+  <tbody>
+  <% invoices.forEach(i => { %>
+    <tr class="clickable" data-href="/app/factures/<%= i.id %>">
+      <td><a href="/app/factures/<%= i.id %>"><%= i.number %></a></td>
+      <td><%= i.client_name %></td>
+      <td class="nowrap"><%= u.formatDate(i.due_date) %></td>
+      <td class="right nowrap"><strong><%= u.formatMoney(i.total) %></strong><% if (i.amount_paid > 0 && i.amount_paid < i.total) { %><div class="small muted">reste <%= u.formatMoney(i.total - i.amount_paid) %></div><% } %></td>
+      <td><span class="badge badge-<%= i.realStatus %>"><%= u.STATUS_LABELS[i.realStatus] %></span></td>
+    </tr>
+  <% }) %>
+  </tbody>
+</table></div>
+<% } %>

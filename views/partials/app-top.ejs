@@ -1,0 +1,24 @@
+<%- include('head') %>
+<body>
+<div class="mobile-bar no-print">
+  <a href="/app" class="logo"><%- include('logo') %></a>
+  <button type="button" data-toggle-sidebar aria-label="Menu">☰</button>
+</div>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <a href="/app" class="logo"><%- include('logo') %></a>
+    <nav class="side-nav">
+      <a href="/app" class="<%= path === '/app' || path === '/app/' ? 'active' : '' %>"><span class="ico">◧</span> Tableau de bord</a>
+      <a href="/app/factures" class="<%= path.startsWith('/app/factures') ? 'active' : '' %>"><span class="ico">▤</span> Factures</a>
+      <a href="/app/clients" class="<%= path.startsWith('/app/clients') ? 'active' : '' %>"><span class="ico">☺</span> Clients</a>
+      <a href="/app/abonnement" class="<%= path.startsWith('/app/abonnement') ? 'active' : '' %>"><span class="ico">★</span> Abonnement</a>
+      <a href="/app/parametres" class="<%= path.startsWith('/app/parametres') ? 'active' : '' %>"><span class="ico">⚙</span> Paramètres</a>
+    </nav>
+    <div class="sidebar-foot">
+      <div style="font-weight:600;color:#fff"><%= user.business_name %></div>
+      <div style="margin:.3em 0 .8em">Offre <span class="plan-pill"><%= plan.name %></span></div>
+      <form method="post" action="/deconnexion"><button type="submit">Se déconnecter</button></form>
+    </div>
+  </aside>
+  <main class="app-main">
+    <%- include('flash') %>

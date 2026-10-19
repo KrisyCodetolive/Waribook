@@ -1,0 +1,60 @@
+<% const st = u.invoiceStatus(invoice); %>
+<div class="invoice-doc">
+  <% if (st === 'payee') { %><div class="paid-stamp">PAYÉE</div><% } %>
+  <div class="inv-head">
+    <div>
+      <h2><%= owner.business_name %></h2>
+      <div class="muted small">
+        <% if (owner.phone) { %>📞 <%= owner.phone %><br><% } %>
+        <% if (owner.city || owner.country) { %><%= [owner.city, owner.country].filter(Boolean).join(', ') %><br><% } %>
+        <%= owner.email %>
+      </div>
+    </div>
+    <div class="inv-meta">
+      <div class="muted small">FACTURE</div>
+      <div class="num"><%= invoice.number %></div>
+      <div class="small">Émise le <%= u.formatDate(invoice.issue_date) %></div>
+      <div class="small">Échéance : <strong><%= u.formatDate(invoice.due_date) %></strong></div>
+      <div style="margin-top:.4em"><span class="badge badge-<%= st %>"><%= u.STATUS_LABELS[st] %></span></div>
+    </div>
+  </div>
+
+  <div class="inv-parties">
+    <div class="box"><div class="lab">Facturé à</div><strong><%= client.name %></strong><div class="small muted"><%= client.phone %><% if (client.address) { %><br><%= client.address %><% } %></div></div>
+    <div class="box"><div class="lab">Reste à payer</div><strong style="font:800 1.5rem var(--font-display);color:<%= st === 'payee' ? 'var(--forest-2)' : 'var(--clay)' %>"><%= u.formatMoney(Math.max(0, invoice.total - invoice.amount_paid)) %></strong></div>
+  </div>
+
+  <div class="table-wrap"><table>
+    <thead><tr><th>Désignation</th><th class="right">Qté</th><th class="right">Prix unitaire</th><th class="right">Total</th></tr></thead>
+    <tbody>
+    <% items.forEach(it => { %>
+      <tr><td><%= it.description %></td><td class="right"><%= it.quantity %></td><td class="right nowrap"><%= u.formatMoney(it.unit_price) %></td><td class="right nowrap"><%= u.formatMoney(it.quantity * it.unit_price) %></td></tr>
+    <% }) %>
+    </tbody>
+  </table></div>
+
+  <div class="inv-totals">
+    <div class="grand"><span>Total</span><span><%= u.formatMoney(invoice.total) %></span></div>
+    <% if (invoice.amount_paid > 0) { %>
+      <div><span class="muted">Déjà payé</span><span><%= u.formatMoney(invoice.amount_paid) %></span></div>
+      <div><strong>Reste à payer</strong><strong><%= u.formatMoney(Math.max(0, invoice.total - invoice.amount_paid)) %></strong></div>
+    <% } %>
+  </div>
+
+  <% if (invoice.notes) { %><p class="small" style="margin-top:20px;white-space:pre-line"><strong>Notes :</strong> <%= invoice.notes %></p><% } %>
+
+  <% const momos = [['Wave', owner.momo_wave, '#1dc4ff'], ['Orange Money', owner.momo_orange, '#ff7900'], ['MTN MoMo', owner.momo_mtn, '#ffcb05'], ['Moov Money', owner.momo_moov, '#0066b3']].filter(m => m[1]); %>
+  <% if (momos.length && st !== 'payee' && st !== 'annulee') { %>
+  <div class="pay-box">
+    <h3>📱 Payer par Mobile Money</h3>
+    <p class="small muted" style="margin-top:0">Envoyez <strong><%= u.formatMoney(invoice.total - invoice.amount_paid) %></strong> à l'un de ces numéros en indiquant la référence <strong><%= invoice.number %></strong>.</p>
+    <div class="momo-list">
+      <% momos.forEach(([op, no, color]) => { %>
+        <div class="momo-item"><div class="op"><span class="dot" style="background:<%= color %>"></span><%= op %></div><div class="no"><%= no %></div></div>
+      <% }) %>
+    </div>
+  </div>
+  <% } %>
+
+  <% if (owner.invoice_footer) { %><p class="small muted" style="margin-top:24px;text-align:center;white-space:pre-line"><%= owner.invoice_footer %></p><% } %>
+</div>

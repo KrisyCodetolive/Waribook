@@ -1,0 +1,22 @@
+# Déploiement en un clic sur Render (https://render.com) — voir README
+services:
+  - type: web
+    name: waribook
+    runtime: node
+    plan: starter
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /sante
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: DATABASE_PATH
+        value: /var/data/waribook.db
+      - key: DEFAULT_COUNTRY_CODE
+        value: "225"
+    disk:
+      name: waribook-data
+      mountPath: /var/data
+      sizeGB: 1

@@ -1,0 +1,12 @@
+<%- include('../partials/app-top') %>
+<div class="app-topbar">
+  <h1>Factures</h1>
+  <a href="/app/factures/nouvelle" class="btn btn-primary">+ Nouvelle facture</a>
+</div>
+<div class="tabs">
+  <% [['toutes','Toutes'],['en_attente','En attente'],['partielle','Partielles'],['en_retard','En retard'],['payee','Payées'],['annulee','Annulées']].forEach(([k,l]) => { %>
+    <a href="/app/factures?statut=<%= k %>" class="<%= filter === k ? 'active' : '' %>"><%= l %></a>
+  <% }) %>
+</div>
+<div class="card"><%- include('_invoice-table', { invoices }) %></div>
+<%- include('../partials/app-bottom') %>

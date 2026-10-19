@@ -1,0 +1,57 @@
+<%- include('../partials/app-top') %>
+<div class="app-topbar"><div><a href="/app/factures" class="small">← Factures</a><h1>Nouvelle facture</h1></div></div>
+
+<% if (clients.length === 0) { %>
+  <div class="card">
+    <h2>D'abord, ajoutez votre client</h2>
+    <%- include('_client-form', { redirect: 'facture' }) %>
+  </div>
+<% } else { %>
+<form method="post" action="/app/factures" id="invoice-form">
+  <div class="card">
+    <div class="grid-2">
+      <div class="field">
+        <label for="client_id">Client *</label>
+        <select id="client_id" name="client_id" required>
+          <option value="">— Choisir un client —</option>
+          <% clients.forEach(c => { %><option value="<%= c.id %>" <%= selectedClient === c.id ? 'selected' : '' %>><%= c.name %></option><% }) %>
+        </select>
+        <div class="hint"><a href="#" data-open-dialog="new-client">+ Nouveau client</a></div>
+      </div>
+      <div class="grid-2" style="gap:0 .8rem">
+        <div class="field"><label for="issue_date">Date</label><input type="date" id="issue_date" name="issue_date" value="<%= issueDate %>"></div>
+        <div class="field"><label for="due_date">Échéance</label><input type="date" id="due_date" name="due_date" value="<%= dueDate %>"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Articles / prestations</h2>
+    <div class="table-wrap"><table class="items-table">
+      <thead><tr><th style="width:50%">Désignation</th><th style="width:12%">Qté</th><th style="width:20%">Prix unitaire</th><th class="right">Total</th><th></th></tr></thead>
+      <tbody id="items">
+        <tr class="item-row">
+          <td><input name="description" placeholder="Ex : Sac de ciment 50 kg" required></td>
+          <td><input name="quantity" type="number" min="1" value="1" inputmode="numeric"></td>
+          <td><input name="unit_price" inputmode="numeric" placeholder="0"></td>
+          <td class="right nowrap line-total">0 FCFA</td>
+          <td><button type="button" class="btn btn-sm btn-ghost" data-remove-row aria-label="Supprimer la ligne">✕</button></td>
+        </tr>
+      </tbody>
+    </table></div>
+    <button type="button" class="btn btn-sm" id="add-row" style="margin-top:10px">+ Ajouter une ligne</button>
+    <div class="total-line"><span>Total</span><span id="grand-total">0 FCFA</span></div>
+  </div>
+
+  <div class="card">
+    <div class="field"><label for="notes">Notes (facultatif)</label><textarea id="notes" name="notes" rows="2" placeholder="Ex : Acompte de 50 % à la commande"></textarea></div>
+    <button type="submit" class="btn btn-primary btn-lg">Créer la facture</button>
+  </div>
+</form>
+<% } %>
+
+<dialog id="new-client">
+  <h2>Nouveau client</h2>
+  <%- include('_client-form', { redirect: 'facture' }) %>
+</dialog>
+<%- include('../partials/app-bottom') %>

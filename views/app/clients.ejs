@@ -1,0 +1,52 @@
+<%- include('../partials/app-top') %>
+<div class="app-topbar">
+  <h1>Clients</h1>
+  <button type="button" class="btn btn-primary" data-open-dialog="new-client">+ Nouveau client</button>
+</div>
+<div class="card">
+<% if (clients.length === 0) { %>
+  <div class="empty"><div class="emoji">🤝</div><p>Ajoutez votre premier client pour lui envoyer une facture.</p><button type="button" class="btn btn-primary" data-open-dialog="new-client">Ajouter un client</button></div>
+<% } else { %>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Nom</th><th>Téléphone</th><th>Factures</th><th class="right">Doit encore</th><th></th></tr></thead>
+    <tbody>
+    <% clients.forEach(c => { %>
+      <tr>
+        <td><strong><%= c.name %></strong><% if (c.email) { %><div class="small muted"><%= c.email %></div><% } %></td>
+        <td class="nowrap"><%= c.phone || '—' %></td>
+        <td><%= c.invoice_count %></td>
+        <td class="right nowrap"><% if (c.balance > 0) { %><strong style="color:var(--clay)"><%= u.formatMoney(c.balance) %></strong><% } else { %><span class="muted">0</span><% } %></td>
+        <td class="right nowrap">
+          <a href="/app/factures/nouvelle?client=<%= c.id %>" class="btn btn-sm">Facturer</a>
+          <button type="button" class="btn btn-sm btn-ghost" data-open-dialog="edit-<%= c.id %>">Modifier</button>
+        </td>
+      </tr>
+      <dialog id="edit-<%= c.id %>">
+        <h2>Modifier le client</h2>
+        <form method="post" action="/app/clients/<%= c.id %>/modifier">
+          <div class="field"><label>Nom *</label><input name="name" required value="<%= c.name %>"></div>
+          <div class="grid-2">
+            <div class="field"><label>Téléphone (WhatsApp)</label><input name="phone" type="tel" value="<%= c.phone %>"></div>
+            <div class="field"><label>E-mail</label><input name="email" type="email" value="<%= c.email %>"></div>
+          </div>
+          <div class="field"><label>Adresse</label><input name="address" value="<%= c.address %>"></div>
+          <div class="actions-row" style="justify-content:space-between">
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+            <button type="button" class="btn" data-close-dialog>Fermer</button>
+          </div>
+        </form>
+        <form method="post" action="/app/clients/<%= c.id %>/supprimer" data-confirm="Supprimer ce client et toutes ses factures ?" style="margin-top:1rem">
+          <button type="submit" class="btn btn-sm btn-danger">Supprimer ce client</button>
+        </form>
+      </dialog>
+    <% }) %>
+    </tbody>
+  </table></div>
+<% } %>
+</div>
+
+<dialog id="new-client">
+  <h2>Nouveau client</h2>
+  <%- include('_client-form', { redirect: '' }) %>
+</dialog>
+<%- include('../partials/app-bottom') %>

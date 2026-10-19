@@ -1,0 +1,39 @@
+<%- include('../partials/app-top') %>
+<div class="app-topbar"><h1>Abonnement</h1></div>
+<% if (demo) { %><div class="flash flash-info"><strong>Mode démo :</strong> les clés CinetPay ne sont pas configurées, les abonnements s'activent sans paiement réel. Voir le README pour activer les vrais paiements.</div><% } %>
+<div class="card">
+  <p style="margin:0">Offre actuelle : <strong><%= current.name %></strong>
+  <% if (current.id !== 'gratuit' && user.plan_expires_at) { %> · active jusqu'au <strong><%= u.formatDate(user.plan_expires_at) %></strong><% } %></p>
+</div>
+<div class="pricing">
+  <% Object.values(plans).forEach(p => { %>
+  <div class="price-card <%= p.id === 'pro' ? 'featured' : '' %>">
+    <% if (p.id === 'pro') { %><span class="tag">Recommandé</span><% } %>
+    <h3><%= p.name %></h3>
+    <div class="price"><%= u.formatMoney(p.price, '') %> <small>FCFA / mois</small></div>
+    <ul>
+      <li><%= p.invoicesPerMonth === Infinity ? 'Factures illimitées' : p.invoicesPerMonth + ' factures / mois' %></li>
+      <li><%= p.clients === Infinity ? 'Clients illimités' : p.clients + ' clients max' %></li>
+      <li>Envoi et relances WhatsApp</li>
+      <% if (p.id === 'business') { %><li>Support prioritaire</li><% } %>
+    </ul>
+    <% if (p.price === 0) { %>
+      <button class="btn btn-block" disabled><%= current.id === 'gratuit' ? 'Offre actuelle' : 'Inclus' %></button>
+    <% } else { %>
+      <form method="post" action="/app/abonnement/<%= p.id %>">
+        <button type="submit" class="btn btn-block <%= p.id === 'pro' ? 'btn-primary' : '' %>"><%= current.id === p.id ? 'Prolonger de 30 jours' : 'Payer par Mobile Money' %></button>
+      </form>
+    <% } %>
+  </div>
+  <% }) %>
+</div>
+<% if (history.length) { %>
+<div class="card" style="margin-top:20px">
+  <h2>Historique</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Date</th><th>Offre</th><th>Montant</th><th>Statut</th></tr></thead>
+    <tbody><% history.forEach(h => { %><tr><td><%= u.formatDate(h.created_at.slice(0,10)) %></td><td><%= h.plan %></td><td><%= u.formatMoney(h.amount) %></td><td><span class="badge <%= h.status === 'payee' ? 'badge-payee' : 'badge-en_attente' %>"><%= h.status === 'payee' ? 'Payé' : 'En attente' %></span></td></tr><% }) %></tbody>
+  </table></div>
+</div>
+<% } %>
+<%- include('../partials/app-bottom') %>

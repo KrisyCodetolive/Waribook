@@ -1,0 +1,64 @@
+<%- include('../partials/app-top') %>
+<div class="app-topbar">
+  <div><a href="/app/factures" class="small">← Factures</a><h1>Facture <%= invoice.number %></h1></div>
+  <div class="actions-row">
+    <% if (client.phone) { %>
+      <% if (invoice.realStatus === 'en_retard' || invoice.realStatus === 'partielle') { %>
+        <a href="<%= waRemind %>" target="_blank" rel="noopener" class="btn btn-whatsapp">💬 Relancer sur WhatsApp</a>
+      <% } else if (invoice.realStatus !== 'payee' && invoice.realStatus !== 'annulee') { %>
+        <a href="<%= waSend %>" target="_blank" rel="noopener" class="btn btn-whatsapp">💬 Envoyer sur WhatsApp</a>
+      <% } %>
+    <% } %>
+    <% if (invoice.realStatus !== 'payee' && invoice.realStatus !== 'annulee') { %>
+      <button type="button" class="btn btn-primary" data-open-dialog="pay">✓ Enregistrer un paiement</button>
+    <% } %>
+    <button type="button" class="btn" onclick="window.print()">🖨️ PDF</button>
+  </div>
+</div>
+
+<% if (!client.phone) { %><div class="flash flash-info">Ajoutez le numéro WhatsApp de ce client (page Clients) pour pouvoir lui envoyer la facture en un clic.</div><% } %>
+
+<div class="card no-print">
+  <label>Lien de la facture à partager</label>
+  <div class="share-box"><input readonly value="<%= publicUrl %>" id="share-url"><button type="button" class="btn" data-copy="#share-url">Copier</button></div>
+</div>
+
+<div class="invoice-page" style="padding:0;max-width:none">
+  <%- include('../partials/invoice-doc', { owner: user }) %>
+</div>
+
+<% if (payments.length) { %>
+<div class="card no-print" style="margin-top:20px">
+  <h2>Paiements reçus</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Date</th><th>Moyen</th><th>Référence</th><th class="right">Montant</th></tr></thead>
+    <tbody><% payments.forEach(p => { %><tr><td><%= u.formatDate(p.paid_at) %></td><td><%= p.method %></td><td><%= p.reference || '—' %></td><td class="right"><%= u.formatMoney(p.amount) %></td></tr><% }) %></tbody>
+  </table></div>
+</div>
+<% } %>
+
+<div class="actions-row no-print" style="margin-top:20px">
+  <% if (invoice.realStatus !== 'annulee') { %>
+  <form method="post" action="/app/factures/<%= invoice.id %>/annuler" data-confirm="Annuler cette facture ?"><button class="btn btn-sm btn-ghost">Annuler la facture</button></form>
+  <% } %>
+  <form method="post" action="/app/factures/<%= invoice.id %>/supprimer" data-confirm="Supprimer définitivement cette facture ?"><button class="btn btn-sm btn-danger">Supprimer</button></form>
+</div>
+
+<dialog id="pay">
+  <h2>Enregistrer un paiement</h2>
+  <form method="post" action="/app/factures/<%= invoice.id %>/paiement">
+    <div class="field"><label>Montant reçu (FCFA)</label><input name="amount" inputmode="numeric" required value="<%= invoice.total - invoice.amount_paid %>"></div>
+    <div class="grid-2">
+      <div class="field"><label>Moyen de paiement</label>
+        <select name="method"><option>Wave</option><option>Orange Money</option><option>MTN MoMo</option><option>Moov Money</option><option>Espèces</option><option>Virement</option><option>Chèque</option></select>
+      </div>
+      <div class="field"><label>Date</label><input type="date" name="paid_at" value="<%= today %>"></div>
+    </div>
+    <div class="field"><label>Référence de transaction (facultatif)</label><input name="reference" placeholder="Ex : ID Wave"></div>
+    <div class="actions-row" style="justify-content:space-between">
+      <button type="submit" class="btn btn-primary">Enregistrer</button>
+      <button type="button" class="btn" data-close-dialog>Annuler</button>
+    </div>
+  </form>
+</dialog>
+<%- include('../partials/app-bottom') %>
