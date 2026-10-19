@@ -4,13 +4,21 @@
   "description": "WariBook - Facturation et suivi des impayés pour les commerçants et PME d'Afrique (FCFA, Mobile Money, WhatsApp)",
   "main": "src/server.js",
   "scripts": {
+    "start": "node src/server.js",
     "dev": "node --watch src/server.js",
     "test": "node scripts/smoke-test.js"
   },
   "engines": {
     "node": ">=20"
   },
-  "keywords": ["saas", "facturation", "afrique", "fcfa", "mobile-money", "whatsapp"],
+  "keywords": [
+    "saas",
+    "facturation",
+    "afrique",
+    "fcfa",
+    "mobile-money",
+    "whatsapp"
+  ],
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^3.0.3",
